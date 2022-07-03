@@ -1,85 +1,39 @@
 import React from "react";
 import {
-  Text,
-  Link,
-  HStack,
-  Center,
-  Heading,
-  Switch,
-  useColorMode,
-  NativeBaseProvider,
-  extendTheme,
-  VStack,
-  Box,
+  NativeBaseProvider
 } from "native-base";
-import NativeBaseIcon from "./components/NativeBaseIcon";
-import { Platform } from "react-native";
 
-// Define the config
-const config = {
-  useSystemColorMode: false,
-  initialColorMode: "dark",
-};
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-// extend the theme
-export const theme = extendTheme({ config });
+import MainScreenPage from "./src/screen/MainScreen";
+import PreferencePage from "./src/screen/PreferenceScreen";
+import Holding from "./src/screen/Holding";
+import Trading from "./src/screen/Trading";
+import AgreementPage from "./src/screen/AgreementScreen";
+import AskToExpertPage from "./src/screen/AskToExpertScreen";
+import BankPage from "./src/screen/BankScreen";
+import KycPage from "./src/screen/KycScreen";
+import ProfilePage from "./src/screen/ProfileScreen";
+import OrderPage from "./src/screen/OrderScreen";
+import LoginPage from "./src/screen/LoginScreen";
+import OtpPage from "./src/screen/OtpScreen";
+
+import CustomBottomNavbar from "./src/components/CustomBottomNavbar";
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
     <NativeBaseProvider>
-      <Center
-        _dark={{ bg: "blueGray.900" }}
-        _light={{ bg: "blueGray.50" }}
-        px={4}
-        flex={1}
-      >
-        <VStack space={5} alignItems="center">
-          <NativeBaseIcon />
-          <Heading size="lg">Welcome to NativeBase</Heading>
-          <HStack space={2} alignItems="center">
-            <Text>Edit</Text>
-            <Box
-              _web={{
-                _text: {
-                  fontFamily: "monospace",
-                  fontSize: "sm",
-                },
-              }}
-              px={2}
-              py={1}
-              _dark={{ bg: "blueGray.800" }}
-              _light={{ bg: "blueGray.200" }}
-            >
-              App.js
-            </Box>
-            <Text>and save to reload.</Text>
-          </HStack>
-          <Link href="https://docs.nativebase.io" isExternal>
-            <Text color="primary.500" underline fontSize={"xl"}>
-              Learn NativeBase
-            </Text>
-          </Link>
-          <ToggleDarkMode />
-        </VStack>
-      </Center>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Mainpage">
+          <Stack.Screen options={{ headerShown: false }} name="Mainpage" component={MainScreenPage} />
+          <Stack.Screen options={{ headerShown: false }} name="Holding" component={Holding} />
+          <Stack.Screen options={{ headerShown: false }} name="Trading" component={Trading} />
+          <Stack.Screen options={{ headerShown: false }} name="PreferencePage" component={PreferencePage} />
+        </Stack.Navigator>
+      </NavigationContainer>
     </NativeBaseProvider>
-  );
-}
-
-// Color Switch Component
-function ToggleDarkMode() {
-  const { colorMode, toggleColorMode } = useColorMode();
-  return (
-    <HStack space={2} alignItems="center">
-      <Text>Dark</Text>
-      <Switch
-        isChecked={colorMode === "light"}
-        onToggle={toggleColorMode}
-        aria-label={
-          colorMode === "light" ? "switch to dark mode" : "switch to light mode"
-        }
-      />
-      <Text>Light</Text>
-    </HStack>
   );
 }
